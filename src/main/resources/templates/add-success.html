@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<object th:include="fragments/fragment :: title" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+	</head>
+	
+	<body>
+		<nav th:replace="fragments/fragment :: navbar"></nav>
+		<div class="container" style="margin-top: 40px; padding-bottom: 30px">
+			<div class="row">
+				<div class="col-12">
+					<h2>Data Berhasil Ditambahkan</h2>
+					<p th:text="'Pegawai dengan NIP ' + ${nip} + ' berhasil ditambahkan ke dalam data pegawai'"></p>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

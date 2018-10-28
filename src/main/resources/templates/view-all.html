@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<object th:include="fragments/fragment :: title" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+	</head>
+	
+	<body>
+		<nav th:replace="fragments/fragment :: navbar"></nav>
+		<div class="container vertical-center" style="padding-top: 32px;">
+	        <h1>Lihat Semua Jabatan</h1>
+	        <div class="table-responsive table">
+			    <table id="example" class="display" style="width:100%">
+			        <thead>
+			            <tr>
+			                <th>Nama</th>
+			                <th>Deskripsi</th>
+			                <th>Gaji Pokok</th>
+			            </tr>
+			        </thead>
+			        
+			        <tbody id="tablebody">
+			            <tr th:each="jabatan : ${listJabatan}">
+			            	<td th:text="${jabatan.nama}"></td>
+			            	<td th:text="${jabatan.deskripsi}"></td>
+			            	<td th:text="${#numbers.formatInteger(jabatan.gajiPokok, 0)}"></td>
+			            </tr>
+			        </tbody>
+		    	</table>
+			</div>
+		</div>
+		    	
+    	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+		<script>
+		$(document).ready(function() {
+		    $('#example').DataTable( {
+		        initComplete: function () {
+		            this.api().columns().every( function () {
+		                var column = this;
+		                var select = $('<select><option value=""></option></select>')
+		                    .appendTo( $(column.footer()).empty() )
+		                    .on( 'change', function () {
+		                        var val = $.fn.dataTable.util.escapeRegex(
+		                            $(this).val()
+		                        );
+		 
+		                        column
+		                            .search( val ? '^'+val+'$' : '', true, false )
+		                            .draw();
+		                    } );
+		 
+		                column.data().unique().sort().each( function ( d, j ) {
+		                    select.append( '<option value="'+d+'">'+d+'</option>' )
+		                } );
+		            } );
+		        }
+		    } );	    
+		} );
+		</script>
+	</body>
+</html>
+

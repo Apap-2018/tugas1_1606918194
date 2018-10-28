@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<object th:include="fragments/fragment :: title" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+	</head>
+	
+	<body>
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+	
+	<div class="container vertical-center" style="padding-top: 32px;">
+    	<div class="row">
+    		<div class="col-sm-6">
+    			<h1>Data Pegawai Termuda</h1>
+   			        <div class="card my-5">
+			            <table class="table">
+			                <tbody>
+			                    <tr>
+			                        <th scope="row">NIP</th>
+			                        <td th:text="${termuda.nip}"></td>
+			                    </tr>
+			                    <tr>
+			                        <th scope="row">Nama</th>
+			                        <td th:text="${termuda.nama}"></td>
+			                    </tr>
+			                    <tr>
+			                        <th scope="row">Tempat Lahir</th>
+			                        <td th:text="${termuda.tempatLahir}"></td>
+			                    </tr>
+			                    <tr>
+			                        <th scope="row">Tanggal Lahir</th>
+			                        <td th:text="${termuda.tanggalLahir}"></td>
+			                    </tr>
+			                    <tr>
+			                        <th scope="row">Tahun Masuk</th>
+			                        <td th:text="${termuda.tahunMasuk}"></td>
+			                    </tr>
+			                     <tr>
+			                        <th scope="row">Nama Instansi</th>
+			                        <td th:text="${termuda.instansi.nama} + ' - ' + ${termuda.instansi.provinsi.nama}"></td>
+			                    </tr>
+			                    <tr>
+			                        <th scope="row">Jabatan</th>
+			                        <td>
+			                            <ul>
+			                                <li th:each="jabatan : ${termuda.jabatanPegawai}">
+			                                    <div th:text="${jabatan.nama}"></div>
+			                                </li>
+			                            </ul>
+			                        </td>
+			                    </tr>
+			                </tbody>
+			            </table>
+			        </div>
+		   		</div>
+		   		<div class="col-sm-6">
+		   			<h1>Data Pegawai Tertua</h1>
+   			        <div class="card my-5">
+			            <table class="table">
+			                <tbody>
+			                    <tr>
+			                        <th scope="row">NIP</th>
+			                        <td th:text="${tertua.nip}"></td>
+			                    </tr>
+			                    <tr>
+			                        <th scope="row">Nama</th>
+			                        <td th:text="${tertua.nama}"></td>
+			                    </tr>
+			                    <tr>
+			                        <th scope="row">Tempat Lahir</th>
+			                        <td th:text="${tertua.tempatLahir}"></td>
+			                    </tr>
+			                    <tr>
+			                        <th scope="row">Tanggal Lahir</th>
+			                        <td th:text="${tertua.tanggalLahir}"></td>
+			                    </tr>
+			                    <tr>
+			                        <th scope="row">Tahun Masuk</th>
+			                        <td th:text="${tertua.tahunMasuk}"></td>
+			                    </tr>
+			                     <tr>
+			                        <th scope="row">Nama Instansi</th>
+			                        <td th:text="${tertua.instansi.nama} + ' - ' +${tertua.instansi.provinsi.nama}"></td>
+			                    </tr>
+			                    <tr>
+			                        <th scope="row">Jabatan</th>
+			                        <td>
+			                            <ul>
+			                                <li th:each="jabatan : ${tertua.jabatanPegawai}">
+			                                    <div th:text="${jabatan.nama}"></div>
+			                                </li>
+			                            </ul>
+			                        </td>
+			                    </tr>
+			                </tbody>
+			            </table>
+			        </div>
+	    		</div>
+	    	</div>
+		</div>
+	</body>
+</html>

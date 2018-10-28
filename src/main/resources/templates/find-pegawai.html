@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	
+	<head>
+		<object th:include="fragments/fragment :: title" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+		
+	</head>
+	
+	<body>	
+		<nav th:replace="fragments/fragment :: navbar"></nav>
+		<div class="container vertical-center" style="padding-top: 32px">
+			<form id="myForm">
+				<table class="table">
+					<thead>
+						<tr>
+							<td> Provinsi: </td>	
+							<td>
+								<select class="form-control" id="provinsi">
+									<option value="" selected disabled hidden>Nama Provinsi</option>
+		    						<option  th:each="provinsi : ${provinsi}" th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
+								</select>
+							</td>
+						<tr>
+						<tr>
+							<td> Instansi: </td>
+							<td>
+								<select class="form-control" id="instansi">
+									<option value="" selected disabled hidden>Nama Instansi</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td> Jabatan: </td>
+							<td>		
+								<select class="form-control" id="jabatan">
+								<option value="" selected disabled hidden>Nama Jabatan</option>
+		    						<option  th:each="jabatan : ${jabatan}" th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="submit" class="btn btn-primary"> Cari </button>
+							</td>
+						</tr>
+					</thead>
+				</table>
+			</form>
+			
+			<div class="table-responsive table">
+				<table id="example" class="display" style="width:100%">
+			        <thead>
+			            <tr>
+			                <th>NIP</th>
+			                <th>Nama</th>
+			                <th>Tempat Lahir</th>
+			                <th>Tanggal Lahir</th>
+			                <th>Tahun Masuk</th>
+			                <th>Nama Instansi</th>
+			                <th>Jabatan</th>
+			            </tr>
+			        </thead>
+			        <tbody id="tablebody">
+			            <tr th:each="pegawai : ${pegawai}">
+			            	<td th:text="${pegawai.nip}"></td>
+			            	<td th:text="${pegawai.nama}"></td>
+			            	<td th:text="${pegawai.tempatLahir}"></td>
+			            	<td th:text="${pegawai.tanggalLahir}"></td>
+			            	<td th:text="${pegawai.tahunMasuk}"></td>
+			            	<td th:text="${pegawai.instansi.nama}"></td>
+			            	<td th:each="jabatan : ${pegawai.jabatanPegawai}">
+								<span th:text="${jabatan.nama}"></span>
+							</td>
+			            </tr>
+			        </tbody>
+		    	</table>
+		    </div>
+	    </div>
+    	
+    	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+		
+		<script>
+		$(document).ready(function() {
+		    $('#example').DataTable( {
+		        initComplete: function () {
+		            this.api().columns().every( function () {
+		                var column = this;
+		                var select = $('<select><option value=""></option></select>')
+		                    .appendTo( $(column.footer()).empty() )
+		                    .on( 'change', function () {
+		                        var val = $.fn.dataTable.util.escapeRegex(
+		                            $(this).val()
+		                        );
+		 
+		                        column
+		                            .search( val ? '^'+val+'$' : '', true, false )
+		                            .draw();
+		                    } );
+		 
+		                column.data().unique().sort().each( function ( d, j ) {
+		                    select.append( '<option value="'+d+'">'+d+'</option>' )
+		                } );
+		            } );
+		        }
+		    } );
+		    
+		    
+		    $('#provinsi').change(function() {
+
+	            var prov = $('#provinsi').val();
+	            alert(prov);
+
+	            var urls = '/get/instansi/' + prov;
+	            alert(urls);
+
+	            $.ajax({
+	                url: urls,
+	                type: 'GET',
+
+	                success: function(result) {
+	                    console.log(result);
+	                    var instansi_ava = result.instansi.split(" // ");
+	                    $('option.instansi').detach();
+	                    for (var i = 0; i < instansi_ava.length - 1; i += 2) {
+	                        $('#instansi').append('<option class="instansi" value="' + instansi_ava[i] + '">' + instansi_ava[i + 1] + '</option>"');
+	                    }
+	                },
+
+	                error: function(error) {
+	                    console.log(error);
+	                }
+	            });
+
+	        });
+		    
+		    $('#myForm').submit(function(e) {
+	            alert('Cari Data');
+	            e.preventDefault();
+	            
+	            var urls = "/pegawai/carii?idProvinsi=" + $('#provinsi').val()+"&idInstansi=" +$('#instansi').val()+"&idJabatan="+$('#jabatan').val();
+	            alert(urls);
+
+	            window.location.href = urls;
+
+	        });
+		    
+		} );
+
+		</script>
+	</body>
+</html>

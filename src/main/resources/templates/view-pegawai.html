@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<object th:include="fragments/fragment :: title" th:remove="tag"></object>
+<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+	
+	<div class="jumbotron vertical-center" >
+		<div class="container vertical-center">
+			<h2 th:text="'Lihat Data Pegawai - ' + ${pegawai.nip}"></h2>
+		</div>
+	</div>
+	
+	<div class="container vertical-center">
+		<div class="card my-5">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th scope="row">Nama</th>
+                        <td th:text="${pegawai.nama}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Tempat Lahir</th>
+                        <td th:text="${pegawai.tempatLahir}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Tanggal Lahir</th>
+                        <td th:text="${pegawai.tanggalLahir}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Tahun Masuk</th>
+                        <td th:text="${pegawai.tahunMasuk}"></td>
+                    </tr>
+                     <tr>
+                        <th scope="row">Nama Instansi</th>
+                        <td th:text="${pegawai.instansi.nama} + ' - '+ ${pegawai.instansi.provinsi.nama}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Jabatan</th>
+                        <td>
+                            <ul>
+                                <li th:each="jabatan : ${pegawai.jabatanPegawai}">
+                                    <div th:text="${jabatan.nama}"></div>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Gaji</th>
+                        <td th:text="'Rp' + ${#numbers.formatInteger(gaji, 0)}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="card-body">
+                <a th:href="@{/pegawai/ubah} +'?nip='+ ${pegawai.nip}" class="btn btn-primary">Ubah</a>
+            </div>
+		</div>
+	</div>
+</body>
+
+</html>

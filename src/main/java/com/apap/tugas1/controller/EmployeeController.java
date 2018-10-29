@@ -227,24 +227,34 @@ public class EmployeeController {
 	    return new ResponseEntity<String>("{\"instansi\": \""+ sb.toString() + "\"}", httpHeaders, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value= "/pegawai/carii", method=RequestMethod.GET)
-	private String cariPegawai(@RequestParam("idProvinsi") int idProvinsi,@RequestParam("idInstansi") int idInstansi,@RequestParam("idJabatan") int idJabatan, Model model) {
-		List<EmployeeModel> filter = employeeService.allEmployees();
-		
-		filter = filter.stream()
-			.filter(pegawai -> pegawai.getInstansi().getProvinsi().getId() == idProvinsi)				
-			.filter(pegawai -> pegawai.getInstansi().getId() == idInstansi)
-			.filter(pegawai -> pegawai.getJabatanPegawai().stream().anyMatch(jabatans -> jabatans.getId() == idJabatan)).collect(Collectors.toList());
-		
-		List<PositionModel> jabatan = positionService.allPositions();
-		List<ProvinceModel> provinsi = provinceService.allProvinces();
-		
-		model.addAttribute("provinsi", provinsi);
-		model.addAttribute("jabatan", jabatan);
-		model.addAttribute("pegawai", filter);
+	@RequestMapping(value = "/pegawai/carii", method = RequestMethod.GET)
+    private String cariPegawai(@RequestParam("idProvinsi") int idProvinsi, @RequestParam("idInstansi") int idInstansi, @RequestParam("idJabatan") int idJabatan, Model model) {
+        List<EmployeeModel> filter = employeeService.allEmployees();
+        if (idProvinsi != 0) {
+            filter = filter.stream()
+                    .filter(pegawai -> pegawai.getInstansi().getProvinsi().getId() == idProvinsi).collect(Collectors.toList());
+        }
+        
+        if (idInstansi != 0) {
+            filter = filter.stream()
+                    .filter(pegawai -> pegawai.getInstansi().getId() == idInstansi).collect(Collectors.toList());
+        }
+
+        if (idJabatan != 0) {
+            filter = filter.stream()
+                    .filter(pegawai -> pegawai.getJabatanPegawai().stream()
+                            .anyMatch(jabatans -> jabatans.getId() == idJabatan)).collect(Collectors.toList());
+        }
+
+        List<ProvinceModel> provinsi = provinceService.allProvinces();
+        List<PositionModel> jabatan = positionService.allPositions();
+        
+        model.addAttribute("provinsi", provinsi);
+        model.addAttribute("jabatan", jabatan);
+        model.addAttribute("pegawai", filter);
 		model.addAttribute("title", "Cari Pegawai");
-		
-		return "find-pegawai";
+        
+        return "find-pegawai";
 	}
 	
 	@RequestMapping(value= "/pegawai/cari", method=RequestMethod.GET)

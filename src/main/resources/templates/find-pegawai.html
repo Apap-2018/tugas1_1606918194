@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	
 	<head>
 		<object th:include="fragments/fragment :: title" th:remove="tag"></object>
 		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
@@ -10,74 +9,77 @@
 	
 	<body>	
 		<nav th:replace="fragments/fragment :: navbar"></nav>
-		<div class="container vertical-center" style="padding-top: 32px">
-			<form id="myForm">
-				<table class="table">
-					<thead>
-						<tr>
-							<td> Provinsi: </td>	
-							<td>
-								<select class="form-control" id="provinsi">
-									<option value="" selected disabled hidden>Nama Provinsi</option>
-		    						<option  th:each="provinsi : ${provinsi}" th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
-								</select>
-							</td>
-						<tr>
-						<tr>
-							<td> Instansi: </td>
-							<td>
-								<select class="form-control" id="instansi">
-									<option value="" selected disabled hidden>Nama Instansi</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td> Jabatan: </td>
-							<td>		
-								<select class="form-control" id="jabatan">
-								<option value="" selected disabled hidden>Nama Jabatan</option>
-		    						<option  th:each="jabatan : ${jabatan}" th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<button type="submit" class="btn btn-primary"> Cari </button>
-							</td>
-						</tr>
-					</thead>
-				</table>
-			</form>
-			
-			<div class="table-responsive table">
-				<table id="example" class="display" style="width:100%">
-			        <thead>
-			            <tr>
-			                <th>NIP</th>
-			                <th>Nama</th>
-			                <th>Tempat Lahir</th>
-			                <th>Tanggal Lahir</th>
-			                <th>Tahun Masuk</th>
-			                <th>Nama Instansi</th>
-			                <th>Jabatan</th>
-			            </tr>
-			        </thead>
-			        <tbody id="tablebody">
-			            <tr th:each="pegawai : ${pegawai}">
-			            	<td th:text="${pegawai.nip}"></td>
-			            	<td th:text="${pegawai.nama}"></td>
-			            	<td th:text="${pegawai.tempatLahir}"></td>
-			            	<td th:text="${pegawai.tanggalLahir}"></td>
-			            	<td th:text="${pegawai.tahunMasuk}"></td>
-			            	<td th:text="${pegawai.instansi.nama}"></td>
-			            	<td th:each="jabatan : ${pegawai.jabatanPegawai}">
-								<span th:text="${jabatan.nama}"></span>
-							</td>
-			            </tr>
-			        </tbody>
-		    	</table>
+		<div id="content" class="container-full-bg" >
+    		<div class="container vertical-center" style="padding-top: 50px;"  >
+    			<h3> Cari Pegawai </h3>
+				<form id="myForm">
+						<table class="table">
+							<thead>
+								<tr>
+									<td> Provinsi: </td>	
+									<td>
+										<select class="form-control" id="provinsi">
+											<option value="" selected disabled hidden>Nama Provinsi</option>
+				    						<option  th:each="provinsi : ${provinsi}" th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
+										</select>
+									</td>
+								<tr>
+								<tr>
+									<td> Instansi: </td>
+									<td>
+										<select class="form-control" id="instansi">
+											<option value="" selected disabled hidden>Nama Instansi</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td> Jabatan: </td>
+									<td>		
+										<select class="form-control" id="jabatan">
+										<option value="" selected disabled hidden>Nama Jabatan</option>
+				    						<option  th:each="jabatan : ${jabatan}" th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
+										</select>
+									</td>
+								</tr>
+							</thead>
+						</table>
+						<div  style="float:right; margin-right: 25px; padding-bottom: 25px;">
+			                	<input type="submit" name="submit" class="btn btn-primary"  value="Cari">
+			            </div>
+				</form>
+			</div>
+				
+			<div class="container vertical-center" style="padding-top: 50px;">
+				<div class="table-responsive table">
+					<table id="example" class="display" style="width:100%">
+				        <thead>
+				            <tr>
+				                <th>NIP</th>
+				                <th>Nama</th>
+				                <th>Tempat Lahir</th>
+				                <th>Tanggal Lahir</th>
+				                <th>Tahun Masuk</th>
+				                <th>Nama Instansi</th>
+				                <th>Jabatan</th>
+				            </tr>
+				        </thead>
+				        <tbody id="tablebody">
+				            <tr th:each="pegawai : ${pegawai}">
+				            	<td th:text="${pegawai.nip}"></td>
+				            	<td th:text="${pegawai.nama}"></td>
+				            	<td th:text="${pegawai.tempatLahir}"></td>
+				            	<td th:text="${pegawai.tanggalLahir}"></td>
+				            	<td th:text="${pegawai.tahunMasuk}"></td>
+				            	<td th:text="${pegawai.instansi.nama}"></td>
+				            	<td th:each="jabatan : ${pegawai.jabatanPegawai}">
+									<span th:text="${jabatan.nama}"></span>
+								</td>
+				            </tr>
+				        </tbody>
+			    	</table>
+		    	</div>
 		    </div>
-	    </div>
+    	</div>
     	
     	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
@@ -111,10 +113,7 @@
 		    $('#provinsi').change(function() {
 
 	            var prov = $('#provinsi').val();
-	            alert(prov);
-
 	            var urls = '/get/instansi/' + prov;
-	            alert(urls);
 
 	            $.ajax({
 	                url: urls,
@@ -137,11 +136,13 @@
 	        });
 		    
 		    $('#myForm').submit(function(e) {
-	            alert('Cari Data');
 	            e.preventDefault();
-	            
-	            var urls = "/pegawai/carii?idProvinsi=" + $('#provinsi').val()+"&idInstansi=" +$('#instansi').val()+"&idJabatan="+$('#jabatan').val();
-	            alert(urls);
+
+	            var provinsiId = !$('#provinsi').val() ? 0 : $('#provinsi').val()
+	            var instansiId = !$('#instansi').val() ? 0 : $('#instansi').val()
+	            var jabatanId = !$('#jabatan').val() ? 0 : $('#jabatan').val();
+
+	            var urls = "/pegawai/carii?idProvinsi=" + provinsiId +"&idInstansi=" + instansiId +"&idJabatan="+ jabatanId;
 
 	            window.location.href = urls;
 

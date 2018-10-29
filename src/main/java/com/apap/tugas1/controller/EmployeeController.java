@@ -146,7 +146,7 @@ public class EmployeeController {
 	
 	@RequestMapping(value = "/pegawai/tambah", method = RequestMethod.POST, params= {"submit"})
 	private String tambahPegawaiSubmit(@ModelAttribute EmployeeModel pegawai, Model model) {		
-		String nip = employeeService.generateNip(pegawai);
+		String nip = employeeService.generateNip(pegawai.getInstansi().getId(), pegawai.getTanggalLahir(), pegawai.getTahunMasuk());
 		pegawai.setNip(nip);
 		employeeService.addPegawai(pegawai);
 		

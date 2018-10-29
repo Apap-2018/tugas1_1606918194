@@ -2,7 +2,6 @@ package com.apap.tugas1.service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -133,7 +132,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public String generateNip(EmployeeModel pegawai) {		
+	public String generateNip(long idInstansi, Date tanggalLahir, String tahunMasuk) {		
 		String nipBaru = "";
 		
 		String lastCode = "0";
@@ -141,19 +140,19 @@ public class EmployeeServiceImpl implements EmployeeService{
 		int urutanPegawai = 0;
 		
 		DateFormat df = new SimpleDateFormat("ddMMYY");
-		Date tglLahir = pegawai.getTanggalLahir();
-		String formatted = df.format(tglLahir);
+		//Date tglLahir = pegawai.getTanggalLahir();
+		String formatted = df.format(tanggalLahir);
 		System.out.println("date :" + formatted);
 		
-		Long idInstansi = pegawai.getInstansi().getId();
-		System.out.println("kode instansi :"+ idInstansi);
+		//Long idInstansi = pegawai.getInstansi().getId();
+		System.out.println("kode instansi :" + idInstansi);
 		
 		List<EmployeeModel> filter = this.allEmployees();
 
 		  filter = filter.stream()
-			.filter(peg -> peg.getInstansi().getId() == pegawai.getInstansi().getId())
-			.filter(peg -> peg.getTanggalLahir().equals(pegawai.getTanggalLahir()))
-			.filter(peg -> peg.getTahunMasuk().equalsIgnoreCase(pegawai.getTahunMasuk()))
+			.filter(peg -> peg.getInstansi().getId() == idInstansi)
+			.filter(peg -> peg.getTanggalLahir().equals(tanggalLahir))
+			.filter(peg -> peg.getTahunMasuk().equalsIgnoreCase(tahunMasuk))
 			.collect(Collectors.toList());
 	
 		  System.out.println(filter.size());
@@ -168,12 +167,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 		
 		if (Integer.toString(urutanPegawai).length() == 1) {
 			lastCode += Integer.toString(urutanPegawai);
-			nipBaru = idInstansi + formatted + pegawai.getTahunMasuk() + lastCode;
+			nipBaru = idInstansi + formatted + tahunMasuk + lastCode;
 		}
 		
 		else {
 			firstCode += Integer.toString(urutanPegawai);
-			nipBaru = idInstansi + formatted + pegawai.getTahunMasuk() + firstCode;
+			nipBaru = idInstansi + formatted + tahunMasuk + firstCode;
 		}
 		
 		return nipBaru;

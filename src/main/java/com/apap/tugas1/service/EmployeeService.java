@@ -1,5 +1,6 @@
 package com.apap.tugas1.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,6 @@ public interface EmployeeService {
 	void updatePegawai(EmployeeModel pegawai, String oldNip);
 	
 	double getGaji(EmployeeModel pegawai);
-	String generateNip(EmployeeModel pegawai);
+	String generateNip(long idInstansi, Date tanggalLahir, String tahunMasuk);
 	int totalPegawai();
 }
